@@ -1,0 +1,145 @@
+{
+  "aid": "aid://fintech/paymentgateway@4.0.0",
+  "name": "SecurePay Payment Gateway",
+  "description": "Enterprise payment processing platform supporting credit cards, digital wallets, bank transfers, and cryptocurrency with PCI DSS Level 1 compliance, fraud detection, and global payment methods",
+  "owner": {
+    "org": "SecurePay Financial Services",
+    "site": "https://securepay.finance",
+    "contact": "api@securepay.finance"
+  },
+  "capabilities": [
+    {
+      "id": "payment.process",
+      "description": "Process one-time or recurring payments with automatic fraud detection",
+      "inputs": {
+        "amount": "decimal amount in cents",
+        "currency": "ISO 4217 currency code",
+        "payment_method": "card | bank_transfer | wallet | cryptocurrency",
+        "payment_details": "payment method specific data",
+        "customer_id": "string",
+        "metadata": "object with additional transaction data"
+      },
+      "outputs": {
+        "transaction_id": "unique transaction identifier",
+        "status": "succeeded | failed | pending | requires_action",
+        "fraud_score": "0-100 risk score",
+        "confirmation_code": "payment confirmation code",
+        "receipt_url": "URL to customer receipt"
+      }
+    },
+    {
+      "id": "payment.refund",
+      "description": "Process full or partial refunds with automatic reconciliation",
+      "inputs": {
+        "transaction_id": "original transaction ID",
+        "amount": "refund amount in cents or 'full'",
+        "reason": "duplicate | fraud | customer_request | other",
+        "notify_customer": "boolean"
+      },
+      "outputs": {
+        "refund_id": "unique refund identifier",
+        "status": "succeeded | pending | failed",
+        "refund_amount": "actual refunded amount",
+        "estimated_arrival": "ISO 8601 datetime"
+      }
+    },
+    {
+      "id": "payment.subscription",
+      "description": "Manage recurring subscription billing with automatic retries",
+      "inputs": {
+        "action": "create | update | cancel | pause",
+        "customer_id": "string",
+        "plan_id": "subscription plan identifier",
+        "billing_interval": "daily | weekly | monthly | yearly",
+        "trial_days": "integer or null"
+      },
+      "outputs": {
+        "subscription_id": "unique subscription ID",
+        "status": "active | past_due | canceled | paused",
+        "next_billing_date": "ISO 8601 date",
+        "total_revenue": "lifetime value"
+      }
+    },
+    {
+      "id": "payment.verify",
+      "description": "Verify payment methods and customer identity with 3D Secure",
+      "inputs": {
+        "payment_method": "payment method data",
+        "verification_type": "card | bank_account | identity",
+        "require_3ds": "boolean"
+      },
+      "outputs": {
+        "verified": "boolean",
+        "verification_id": "string",
+        "card_brand": "visa | mastercard | amex | discover",
+        "last4": "last 4 digits",
+        "risk_level": "low | medium | high"
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://securepay.finance/v1",
+        "version": "1.0.0",
+        "spec": "https://securepay.finance/openapi.json",
+        "healthCheck": "https://securepay.finance/health"
+      },
+      {
+        "type": "websocket",
+        "endpoint": "wss://fintech/ws",
+        "version": "1.0"
+      }
+    ],
+    "authentication": [
+      "api_key"
+    ]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": [
+      "US"
+    ],
+    "dataSharing": "none",
+    "privacyPolicy": "https://securepay.finance/privacy",
+    "gdprCompliant": true,
+    "ccpaCompliant": true
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MCowBQYDK2VwAyEAsT3uV4wX5yZ7aB8cD9eF0gH1iJ="
+    }
+  },
+  "sla": {
+    "uptimePct": 99.99,
+    "responseTimeMs": 250
+  },
+  "pricing": [
+    {
+      "plan": "standard",
+      "unit": "request",
+      "price": 0.029,
+      "limits": "2.9% + $0.30 per transaction",
+      "currency": "USD"
+    },
+    {
+      "plan": "plus",
+      "unit": "request",
+      "price": 0.025,
+      "limits": "2.5% + $0.25 per transaction, volume > $50K/month",
+      "currency": "USD"
+    },
+    {
+      "plan": "enterprise",
+      "unit": "request",
+      "price": 0.019,
+      "limits": "1.9% + $0.20 per transaction, custom pricing",
+      "currency": "USD"
+    }
+  ],
+  "metadata": {
+    "documentation": "https://securepay.finance/docs"
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}

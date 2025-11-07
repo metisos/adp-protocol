@@ -1,0 +1,141 @@
+{
+  "aid": "aid://datainsights.ai/analytics@2.0.1",
+  "name": "DataInsights Analytics Engine",
+  "description": "Enterprise-grade business intelligence and analytics platform with real-time data processing, predictive modeling, and automated reporting for data-driven decision making",
+  "owner": {
+    "org": "DataInsights Corporation",
+    "site": "https://datainsights.ai",
+    "contact": "support@datainsights.ai"
+  },
+  "capabilities": [
+    {
+      "id": "analytics.query",
+      "description": "Execute natural language queries against structured and unstructured data sources",
+      "inputs": {
+        "query": "natural language query string",
+        "data_sources": "array of database connections or file paths",
+        "time_range": "object with start and end timestamps",
+        "aggregation": "sum | avg | count | min | max | custom"
+      },
+      "outputs": {
+        "results": "array of query results",
+        "visualization": "recommended chart type",
+        "insights": "AI-generated insights and anomalies",
+        "query_execution_time_ms": "integer"
+      }
+    },
+    {
+      "id": "analytics.predict",
+      "description": "Generate forecasts and predictions using machine learning models",
+      "inputs": {
+        "historical_data": "time series or tabular data",
+        "target_metric": "metric to forecast",
+        "forecast_horizon": "number of periods to forecast",
+        "confidence_level": "0.8 | 0.9 | 0.95 | 0.99"
+      },
+      "outputs": {
+        "predictions": "array of predicted values with confidence intervals",
+        "model_accuracy": "accuracy metrics (RMSE, MAE, R²)",
+        "trend_analysis": "identified trends and seasonality"
+      }
+    },
+    {
+      "id": "analytics.dashboard",
+      "description": "Generate interactive dashboards with real-time data",
+      "inputs": {
+        "metrics": "array of metrics to track",
+        "layout": "grid | timeline | custom",
+        "refresh_interval_seconds": "integer"
+      },
+      "outputs": {
+        "dashboard_url": "URL to interactive dashboard",
+        "embed_code": "HTML iframe code for embedding",
+        "api_endpoint": "real-time data endpoint"
+      }
+    },
+    {
+      "id": "analytics.report",
+      "description": "Generate automated reports with insights and recommendations",
+      "inputs": {
+        "report_type": "daily | weekly | monthly | custom",
+        "metrics": "array of metrics to include",
+        "format": "pdf | html | excel | pptx",
+        "recipients": "array of email addresses"
+      },
+      "outputs": {
+        "report_url": "URL to generated report",
+        "key_findings": "array of important insights",
+        "recommendations": "AI-generated action items"
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://api.datainsights.ai/v2",
+        "version": "2.0.1",
+        "spec": "https://api.datainsights.ai/openapi.json",
+        "healthCheck": "https://api.datainsights.ai/health"
+      },
+      {
+        "type": "mcp",
+        "endpoint": "https://api.datainsights.ai/mcp/v2",
+        "version": "2.0",
+        "healthCheck": "https://api.datainsights.ai/health"
+      },
+      {
+        "type": "websocket",
+        "endpoint": "wss://api.datainsights.ai/ws",
+        "version": "1.0"
+      }
+    ],
+    "authentication": ["api_key", "oauth2"]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": ["US", "EU"],
+    "dataSharing": "none",
+    "privacyPolicy": "https://datainsights.ai/privacy",
+    "gdprCompliant": true,
+    "ccpaCompliant": true,
+    "hipaaCompliant": false
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MCowBQYDK2VwAyEAGb9ECWmEzf6FQbrBZ9w7lP4u+M8xCZL7="
+    },
+    "certifications": ["soc2", "iso27001"]
+  },
+  "sla": {
+    "uptimePct": 99.95,
+    "responseTimeMs": 800,
+    "errorRatePct": 0.1
+  },
+  "pricing": [
+    {
+      "plan": "starter",
+      "currency": "USD",
+      "unit": "month",
+      "price": 99
+    },
+    {
+      "plan": "business",
+      "currency": "USD",
+      "unit": "month",
+      "price": 499
+    },
+    {
+      "plan": "enterprise",
+      "currency": "USD",
+      "unit": "request",
+      "price": 0.01
+    }
+  ],
+  "metadata": {
+    "category": ["data-analysis", "productivity"],
+    "tags": ["analytics", "business-intelligence", "forecasting", "reporting"],
+    "documentation": "https://docs.datainsights.ai"
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}

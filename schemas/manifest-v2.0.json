@@ -1,0 +1,446 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://adp.dev/schemas/manifest/v2.0.0",
+  "title": "ADP Agent Manifest v2.0",
+  "description": "Agent Discovery Protocol standard manifest format for AI agent discovery and invocation",
+  "type": "object",
+  "required": ["aid", "name", "owner", "capabilities", "invocation", "privacy", "security", "updatedAt"],
+  "properties": {
+    "aid": {
+      "type": "string",
+      "pattern": "^aid://[a-zA-Z0-9.-]+/[a-z0-9-]+@\\d+\\.\\d+\\.\\d+(-.+)?(\\+.+)?$",
+      "description": "Unique agent identifier"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Human-readable agent name"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Detailed agent description"
+    },
+    "owner": {
+      "$ref": "#/$defs/Owner"
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/Capability"
+      }
+    },
+    "invocation": {
+      "$ref": "#/$defs/Invocation"
+    },
+    "privacy": {
+      "$ref": "#/$defs/Privacy"
+    },
+    "security": {
+      "$ref": "#/$defs/Security"
+    },
+    "sla": {
+      "$ref": "#/$defs/SLA"
+    },
+    "pricing": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PricingTier"
+      }
+    },
+    "metadata": {
+      "$ref": "#/$defs/Metadata"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last manifest update"
+    }
+  },
+  "$defs": {
+    "Owner": {
+      "type": "object",
+      "required": ["org"],
+      "properties": {
+        "org": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "site": {
+          "type": "string",
+          "format": "uri"
+        },
+        "contact": {
+          "type": "string",
+          "format": "email"
+        },
+        "support": {
+          "type": "string",
+          "format": "uri",
+          "description": "Support portal or documentation URL"
+        }
+      }
+    },
+    "Capability": {
+      "type": "object",
+      "required": ["id", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9._-]+$",
+          "description": "Unique capability identifier (dot notation)"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500
+        },
+        "inputs": {
+          "type": "object",
+          "description": "JSON Schema for input parameters"
+        },
+        "outputs": {
+          "type": "object",
+          "description": "JSON Schema for output data"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ErrorCode"
+          }
+        },
+        "rateLimit": {
+          "$ref": "#/$defs/RateLimit"
+        },
+        "sla": {
+          "$ref": "#/$defs/CapabilitySLA"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "AIDs of required dependencies"
+          }
+        }
+      }
+    },
+    "Invocation": {
+      "type": "object",
+      "required": ["protocols"],
+      "properties": {
+        "protocols": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/Protocol"
+          }
+        },
+        "authentication": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["oauth2", "api_key", "jwt", "mtls", "none"]
+          }
+        }
+      }
+    },
+    "Protocol": {
+      "type": "object",
+      "required": ["type", "endpoint"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["mcp", "rest", "grpc", "graphql", "websocket"]
+        },
+        "endpoint": {
+          "type": "string",
+          "format": "uri"
+        },
+        "version": {
+          "type": "string"
+        },
+        "spec": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to OpenAPI, Proto, GraphQL schema"
+        },
+        "healthCheck": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "Privacy": {
+      "type": "object",
+      "required": ["dataRetentionDays", "dataRegions", "dataSharing"],
+      "properties": {
+        "dataRetentionDays": {
+          "type": "integer",
+          "minimum": -1,
+          "description": "Days data is retained (0 = none, -1 = indefinite)"
+        },
+        "dataRegions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-2 country codes or cloud regions"
+          },
+          "minItems": 1
+        },
+        "dataSharing": {
+          "type": "string",
+          "enum": ["none", "anonymized", "partners", "public"],
+          "description": "Data sharing policy"
+        },
+        "privacyPolicy": {
+          "type": "string",
+          "format": "uri"
+        },
+        "gdprCompliant": {
+          "type": "boolean"
+        },
+        "ccpaCompliant": {
+          "type": "boolean"
+        },
+        "hipaaCompliant": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Security": {
+      "type": "object",
+      "required": ["signingKeys"],
+      "properties": {
+        "signingKeys": {
+          "$ref": "#/$defs/SigningKeys"
+        },
+        "attestations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Attestation"
+          }
+        },
+        "certifications": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["soc2", "iso27001", "pci-dss", "fedramp", "hipaa"]
+          }
+        },
+        "vulnerabilityDisclosure": {
+          "type": "string",
+          "format": "uri",
+          "description": "Security vulnerability disclosure policy URL"
+        }
+      }
+    },
+    "SigningKeys": {
+      "type": "object",
+      "required": ["current"],
+      "properties": {
+        "current": {
+          "type": "string",
+          "pattern": "^ed25519:[A-Za-z0-9+/=]+$"
+        },
+        "next": {
+          "type": "string",
+          "pattern": "^ed25519:[A-Za-z0-9+/=]+$",
+          "description": "Announced future key for rotation"
+        },
+        "rotationDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When next key becomes current"
+        },
+        "previous": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^ed25519:[A-Za-z0-9+/=]+$"
+          },
+          "description": "Recently rotated keys (grace period)"
+        }
+      }
+    },
+    "Attestation": {
+      "type": "object",
+      "required": ["type", "value", "attestor"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["domain_control", "ssl_cert", "organization", "third_party_audit"]
+        },
+        "value": {
+          "type": "string"
+        },
+        "attestor": {
+          "type": "string",
+          "description": "Entity providing attestation"
+        },
+        "signature": {
+          "type": "string",
+          "description": "Cryptographic signature of attestation"
+        },
+        "validUntil": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SLA": {
+      "type": "object",
+      "properties": {
+        "uptimePct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "responseTimeMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "P95 response time in milliseconds"
+        },
+        "errorRatePct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Maximum acceptable error rate"
+        },
+        "supportResponseHours": {
+          "type": "integer",
+          "description": "Hours to first support response"
+        }
+      }
+    },
+    "CapabilitySLA": {
+      "type": "object",
+      "properties": {
+        "responseTimeMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "concurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Max concurrent requests"
+        }
+      }
+    },
+    "RateLimit": {
+      "type": "object",
+      "properties": {
+        "requestsPerMinute": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "requestsPerHour": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "requestsPerDay": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "burstLimit": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "ErrorCode": {
+      "type": "object",
+      "required": ["code", "httpStatus"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Machine-readable error code"
+        },
+        "httpStatus": {
+          "type": "integer",
+          "minimum": 400,
+          "maximum": 599
+        },
+        "description": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "retryAfterSeconds": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "PricingTier": {
+      "type": "object",
+      "required": ["plan", "currency"],
+      "properties": {
+        "plan": {
+          "type": "string",
+          "description": "Tier name"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "price": {
+          "type": "number",
+          "minimum": 0
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["request", "hour", "day", "month", "year", "token", "user"]
+        },
+        "rateLimit": {
+          "$ref": "#/$defs/RateLimit"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Metadata": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["communication", "data-analysis", "automation", "security", "productivity", "development", "other"]
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "statusPage": {
+          "type": "string",
+          "format": "uri"
+        },
+        "documentation": {
+          "type": "string",
+          "format": "uri"
+        },
+        "repository": {
+          "type": "string",
+          "format": "uri",
+          "description": "Source code repository (if open source)"
+        },
+        "license": {
+          "type": "string",
+          "description": "Software license"
+        }
+      }
+    }
+  }
+}

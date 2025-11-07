@@ -1,0 +1,155 @@
+{
+  "aid": "aid://climatedata/weather@1.8.5",
+  "name": "ClimateData Weather Intelligence",
+  "description": "Professional weather data and forecasting service with hyperlocal precision, severe weather alerts, historical climate data, and AI-powered predictions for 10M+ global locations",
+  "owner": {
+    "org": "ClimateData Sciences",
+    "site": "https://climatedata.io",
+    "contact": "api@climatedata.io"
+  },
+  "capabilities": [
+    {
+      "id": "weather.current",
+      "description": "Get current weather conditions with hyperlocal accuracy",
+      "inputs": {
+        "location": "city name, coordinates, or postal code",
+        "units": "metric | imperial | standard",
+        "include_air_quality": "boolean",
+        "include_uv_index": "boolean"
+      },
+      "outputs": {
+        "temperature": "current temperature",
+        "feels_like": "perceived temperature",
+        "conditions": "clear | cloudy | rain | snow | fog",
+        "humidity": "percentage",
+        "wind_speed": "wind speed",
+        "wind_direction": "degrees",
+        "pressure": "atmospheric pressure",
+        "visibility": "visibility distance",
+        "air_quality_index": "AQI value",
+        "uv_index": "UV index value"
+      }
+    },
+    {
+      "id": "weather.forecast",
+      "description": "Get weather forecasts from 1 hour to 16 days ahead",
+      "inputs": {
+        "location": "city name, coordinates, or postal code",
+        "forecast_type": "hourly | daily | weekly",
+        "days": "integer 1-16",
+        "units": "metric | imperial | standard"
+      },
+      "outputs": {
+        "forecasts": "array of time-stamped forecasts",
+        "confidence_level": "forecast accuracy confidence",
+        "precipitation_probability": "array of rain/snow probabilities",
+        "temperature_range": "high and low temperatures"
+      }
+    },
+    {
+      "id": "weather.alerts",
+      "description": "Get severe weather alerts and warnings for a location",
+      "inputs": {
+        "location": "city name, coordinates, or postal code",
+        "alert_types": "all | severe | warnings_only",
+        "radius_km": "integer radius to check"
+      },
+      "outputs": {
+        "active_alerts": "array of current weather alerts",
+        "severity": "minor | moderate | severe | extreme",
+        "event_type": "tornado | hurricane | flood | heat | winter_storm",
+        "effective_time": "ISO 8601 datetime",
+        "expires_time": "ISO 8601 datetime",
+        "instructions": "safety instructions and recommendations"
+      }
+    },
+    {
+      "id": "weather.historical",
+      "description": "Access historical weather data and climate statistics",
+      "inputs": {
+        "location": "city name or coordinates",
+        "start_date": "ISO 8601 date",
+        "end_date": "ISO 8601 date",
+        "aggregation": "hourly | daily | monthly",
+        "metrics": "array of temperature | precipitation | wind | humidity"
+      },
+      "outputs": {
+        "historical_data": "time series data",
+        "statistics": "min, max, average, median for period",
+        "anomalies": "unusual weather events detected",
+        "climate_trends": "long-term trend analysis"
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://climatedata.io/v1",
+        "version": "1.0.0",
+        "spec": "https://climatedata.io/openapi.json",
+        "healthCheck": "https://climatedata.io/health"
+      },
+      {
+        "type": "mcp",
+        "endpoint": "https://api.climatedata.io/mcp",
+        "version": "1.0",
+        "healthCheck": "https://climatedata.io/health"
+      },
+      {
+        "type": "websocket",
+        "endpoint": "wss://climatedata/ws",
+        "version": "1.0"
+      }
+    ],
+    "authentication": [
+      "api_key"
+    ]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": [
+      "US"
+    ],
+    "dataSharing": "none",
+    "privacyPolicy": "https://climatedata.io/privacy",
+    "gdprCompliant": true,
+    "ccpaCompliant": true
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MCowBQYDK2VwAyEA2tU3vW4xY5zZaB7cC8dD9eE="
+    }
+  },
+  "sla": {
+    "uptimePct": 99.9,
+    "responseTimeMs": 200
+  },
+  "pricing": [
+    {
+      "plan": "free",
+      "unit": "request",
+      "price": 0,
+      "limits": "1,000 requests/day",
+      "currency": "USD"
+    },
+    {
+      "plan": "professional",
+      "unit": "month",
+      "price": 49,
+      "limits": "100,000 requests/month",
+      "currency": "USD"
+    },
+    {
+      "plan": "enterprise",
+      "unit": "request",
+      "price": 0.0005,
+      "limits": "unlimited + priority support",
+      "currency": "USD"
+    }
+  ],
+  "metadata": {
+    "documentation": "https://climatedata.io/docs"
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}

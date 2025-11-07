@@ -1,0 +1,146 @@
+{
+  "aid": "aid://docuai/processor@2.3.0",
+  "name": "DocuAI Document Processing Platform",
+  "description": "AI-powered document processing and analysis platform with OCR, data extraction, classification, and intelligent document understanding for business automation workflows",
+  "owner": {
+    "org": "DocuAI Technologies",
+    "site": "https://docuai.com",
+    "contact": "support@docuai.com"
+  },
+  "capabilities": [
+    {
+      "id": "document.extract",
+      "description": "Extract structured data from unstructured documents using AI",
+      "inputs": {
+        "document_url": "URL or base64 encoded document",
+        "document_type": "invoice | receipt | contract | resume | form | auto",
+        "fields_to_extract": "array of field names or 'all'",
+        "output_format": "json | xml | csv"
+      },
+      "outputs": {
+        "extracted_data": "structured data object",
+        "confidence_scores": "per-field confidence percentages",
+        "document_classification": "detected document type",
+        "validation_errors": "array of potential data quality issues"
+      }
+    },
+    {
+      "id": "document.ocr",
+      "description": "Optical Character Recognition with support for 50+ languages and handwriting",
+      "inputs": {
+        "image_url": "URL or base64 encoded image",
+        "language": "ISO 639-1 code or 'auto'",
+        "enhance_image": "boolean to apply preprocessing",
+        "output_format": "text | searchable_pdf | hocr"
+      },
+      "outputs": {
+        "text": "extracted text content",
+        "language_detected": "ISO 639-1 code",
+        "confidence": "overall confidence score",
+        "word_coordinates": "bounding boxes for each word"
+      }
+    },
+    {
+      "id": "document.classify",
+      "description": "Automatically classify documents into categories using ML models",
+      "inputs": {
+        "document_url": "URL or base64 encoded document",
+        "classification_scheme": "predefined | custom model name",
+        "include_confidence": "boolean"
+      },
+      "outputs": {
+        "category": "classified category name",
+        "confidence": "0-1 confidence score",
+        "alternative_categories": "array of other possible categories",
+        "tags": "array of relevant tags"
+      }
+    },
+    {
+      "id": "document.compare",
+      "description": "Compare two documents and highlight differences",
+      "inputs": {
+        "document_a_url": "URL to first document",
+        "document_b_url": "URL to second document",
+        "comparison_mode": "text | visual | semantic",
+        "highlight_changes": "boolean"
+      },
+      "outputs": {
+        "differences": "array of changes with locations",
+        "similarity_score": "0-100 percentage",
+        "comparison_report_url": "URL to visual diff report"
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://docuai.com/v1",
+        "version": "1.0.0",
+        "spec": "https://docuai.com/openapi.json",
+        "healthCheck": "https://docuai.com/health"
+      },
+      {
+        "type": "mcp",
+        "endpoint": "https://api.docuai.com/mcp",
+        "version": "1.0",
+        "healthCheck": "https://docuai.com/health"
+      },
+      {
+        "type": "websocket",
+        "endpoint": "wss://docuai/ws",
+        "version": "1.0"
+      }
+    ],
+    "authentication": [
+      "api_key",
+      "oauth2"
+    ]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": [
+      "US"
+    ],
+    "dataSharing": "none",
+    "privacyPolicy": "https://docuai.com/privacy",
+    "gdprCompliant": true,
+    "ccpaCompliant": true
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MCowBQYDK2VwAyEAbC3dE4fG5hI7jK8lM9nO0pQ1rS="
+    }
+  },
+  "sla": {
+    "uptimePct": 99.9,
+    "responseTimeMs": 1200
+  },
+  "pricing": [
+    {
+      "plan": "developer",
+      "unit": "request",
+      "price": 0.05,
+      "limits": "first 100 pages/month free",
+      "currency": "USD"
+    },
+    {
+      "plan": "business",
+      "unit": "month",
+      "price": 299,
+      "limits": "10,000 pages/month included",
+      "currency": "USD"
+    },
+    {
+      "plan": "enterprise",
+      "unit": "request",
+      "price": 0.02,
+      "limits": "volume discount + SLA",
+      "currency": "USD"
+    }
+  ],
+  "metadata": {
+    "documentation": "https://docuai.com/docs"
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}

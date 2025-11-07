@@ -1,0 +1,142 @@
+{
+  "aid": "aid://metisos.co/atlas@1.0.0",
+  "name": "Atlas",
+  "description": "Order tracking agent that monitors order status across multiple e-commerce platforms and logistics providers with real-time updates",
+  "owner": {
+    "org": "Metis Analytics",
+    "site": "https://metisos.co",
+    "contact": "support@metisos.co"
+  },
+  "capabilities": [
+    {
+      "id": "order.track",
+      "description": "Track order status by order ID across multiple platforms and providers",
+      "inputs": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Unique order identifier"
+          },
+          "platform": {
+            "type": "string",
+            "enum": ["shopify", "amazon", "ebay"],
+            "description": "E-commerce platform"
+          }
+        },
+        "required": ["orderId"]
+      },
+      "outputs": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["pending", "processing", "shipped", "delivered", "cancelled"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Current location of package"
+          },
+          "estimatedDelivery": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    {
+      "id": "order.notify",
+      "description": "Set up notifications for order status changes via email, Slack, or webhook",
+      "inputs": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string",
+            "enum": ["email", "slack", "webhook"]
+          },
+          "destination": {
+            "type": "string"
+          }
+        },
+        "required": ["orderId", "channel", "destination"]
+      },
+      "outputs": {
+        "type": "object",
+        "properties": {
+          "notificationId": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://api.metisos.co/v1/atlas",
+        "version": "1.0.0",
+        "spec": "https://api.metisos.co/openapi.json",
+        "healthCheck": "https://api.metisos.co/health"
+      },
+      {
+        "type": "mcp",
+        "endpoint": "https://api.metisos.co/mcp/atlas",
+        "version": "1.0"
+      }
+    ],
+    "authentication": ["oauth2", "api_key"]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": ["US"],
+    "dataSharing": "none",
+    "gdprCompliant": false,
+    "ccpaCompliant": true
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MCowBQYDK2VwAyEAm0PS2mC7EpN1UY94J4lXuM8vV1qG7iK2oP3rS5tU7wX="
+    },
+    "attestations": [
+      {
+        "type": "domain_control",
+        "value": "metisos.co",
+        "attestor": "Metis Analytics",
+        "validUntil": "2026-11-07T00:00:00Z"
+      }
+    ]
+  },
+  "sla": {
+    "uptimePct": 99.9,
+    "responseTimeMs": 500
+  },
+  "pricing": [
+    {
+      "plan": "Free",
+      "currency": "USD",
+      "price": 0,
+      "unit": "request"
+    },
+    {
+      "plan": "Pro",
+      "currency": "USD",
+      "price": 0.002,
+      "unit": "request"
+    },
+    {
+      "plan": "Enterprise",
+      "currency": "USD",
+      "price": 299,
+      "unit": "month"
+    }
+  ],
+  "metadata": {
+    "category": ["productivity"],
+    "tags": ["order-tracking", "logistics", "ecommerce"]
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}

@@ -1,0 +1,147 @@
+{
+  "aid": "aid://salesforce/crm-connect@3.1.0",
+  "name": "CRM Connect - Customer Relationship Management",
+  "description": "Comprehensive CRM integration platform for managing customer relationships, sales pipelines, and customer data across multiple systems with AI-powered insights and automation",
+  "owner": {
+    "org": "Salesforce Integration Partners",
+    "site": "https://crmconnect.io",
+    "contact": "integrations@crmconnect.io"
+  },
+  "capabilities": [
+    {
+      "id": "crm.contact.create",
+      "description": "Create new contacts with automatic deduplication and enrichment",
+      "inputs": {
+        "name": "string",
+        "email": "email address",
+        "phone": "phone number",
+        "company": "string",
+        "custom_fields": "object with additional data",
+        "auto_enrich": "boolean to enable data enrichment"
+      },
+      "outputs": {
+        "contact_id": "string",
+        "enriched_data": "additional data found about contact",
+        "duplicate_warning": "array of potential duplicate contacts"
+      }
+    },
+    {
+      "id": "crm.lead.score",
+      "description": "Score and qualify leads using AI-powered predictive models",
+      "inputs": {
+        "lead_id": "string or array of lead identifiers",
+        "scoring_model": "default | custom model name",
+        "include_reasons": "boolean"
+      },
+      "outputs": {
+        "lead_scores": "array of scores from 0-100",
+        "qualification": "hot | warm | cold | not_qualified",
+        "reasoning": "AI explanation of score factors",
+        "recommended_actions": "array of next best actions"
+      }
+    },
+    {
+      "id": "crm.pipeline.analyze",
+      "description": "Analyze sales pipeline health and forecast revenue",
+      "inputs": {
+        "pipeline_id": "string",
+        "time_period": "this_quarter | next_quarter | custom range",
+        "confidence_level": "conservative | realistic | optimistic"
+      },
+      "outputs": {
+        "forecast_revenue": "monetary amount",
+        "pipeline_health_score": "0-100",
+        "at_risk_deals": "array of deals requiring attention",
+        "bottlenecks": "identified process bottlenecks",
+        "win_rate_prediction": "percentage"
+      }
+    },
+    {
+      "id": "crm.activity.sync",
+      "description": "Synchronize activities from email, calendar, and communication tools",
+      "inputs": {
+        "user_id": "string",
+        "sources": "array of gmail | outlook | slack | phone",
+        "auto_log": "boolean to automatically log activities",
+        "match_contacts": "boolean to auto-match to existing contacts"
+      },
+      "outputs": {
+        "activities_synced": "integer count",
+        "new_contacts_discovered": "integer count",
+        "sync_status": "success | partial | failed"
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://crmconnect.io/v1",
+        "version": "1.0.0",
+        "spec": "https://crmconnect.io/openapi.json",
+        "healthCheck": "https://crmconnect.io/health"
+      },
+      {
+        "type": "mcp",
+        "endpoint": "https://api.crmconnect.io/mcp/v3",
+        "version": "1.0",
+        "healthCheck": "https://crmconnect.io/health"
+      },
+      {
+        "type": "websocket",
+        "endpoint": "wss://salesforce/ws",
+        "version": "1.0"
+      }
+    ],
+    "authentication": [
+      "oauth2",
+      "api_key"
+    ]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": [
+      "US"
+    ],
+    "dataSharing": "none",
+    "privacyPolicy": "https://crmconnect.io/privacy",
+    "gdprCompliant": true,
+    "ccpaCompliant": true
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MCowBQYDK2VwAyEAKpLmN3oP8qR5sT6uV9wX2yZ4aC="
+    }
+  },
+  "sla": {
+    "uptimePct": 99.95,
+    "responseTimeMs": 350
+  },
+  "pricing": [
+    {
+      "plan": "startup",
+      "unit": "month",
+      "price": 49,
+      "limits": "up to 1,000 contacts",
+      "currency": "USD"
+    },
+    {
+      "plan": "growth",
+      "unit": "month",
+      "price": 199,
+      "limits": "up to 10,000 contacts",
+      "currency": "USD"
+    },
+    {
+      "plan": "enterprise",
+      "unit": "month",
+      "price": 999,
+      "limits": "unlimited contacts + custom integrations",
+      "currency": "USD"
+    }
+  ],
+  "metadata": {
+    "documentation": "https://crmconnect.io/docs"
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}

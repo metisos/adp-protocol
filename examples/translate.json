@@ -1,0 +1,124 @@
+{
+  "aid": "aid://linguatech/translate@1.5.2",
+  "name": "LinguaTech Translation Service",
+  "description": "Professional-grade multilingual translation service with context awareness, industry-specific terminology, and real-time translation for 100+ languages with human-quality accuracy",
+  "owner": {
+    "org": "LinguaTech Solutions",
+    "site": "https://linguatech.global",
+    "contact": "api@linguatech.global"
+  },
+  "capabilities": [
+    {
+      "id": "translate.text",
+      "description": "Translate text between any supported language pair with context preservation",
+      "inputs": {
+        "text": "string or array of strings to translate",
+        "source_language": "ISO 639-1 language code or 'auto'",
+        "target_language": "ISO 639-1 language code",
+        "domain": "general | technical | medical | legal | marketing",
+        "preserve_formatting": "boolean"
+      },
+      "outputs": {
+        "translated_text": "string or array of translated strings",
+        "detected_language": "ISO 639-1 code if source was 'auto'",
+        "confidence_score": "float between 0 and 1",
+        "alternative_translations": "array of alternative phrasings"
+      }
+    },
+    {
+      "id": "translate.document",
+      "description": "Translate entire documents while preserving formatting and structure",
+      "inputs": {
+        "document_url": "URL to document or base64 encoded content",
+        "file_format": "pdf | docx | xlsx | pptx | html",
+        "source_language": "ISO 639-1 code",
+        "target_language": "ISO 639-1 code"
+      },
+      "outputs": {
+        "translated_document_url": "URL to download translated document",
+        "word_count": "integer",
+        "pages_translated": "integer"
+      }
+    },
+    {
+      "id": "translate.glossary",
+      "description": "Create and manage custom terminology glossaries for consistent translations",
+      "inputs": {
+        "action": "create | update | delete | list",
+        "glossary_id": "string",
+        "terms": "array of term pairs with source and target text",
+        "language_pair": "source-target language code pair"
+      },
+      "outputs": {
+        "glossary_id": "string",
+        "term_count": "integer",
+        "status": "active | inactive"
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://linguatech.global/v1",
+        "version": "1.0.0",
+        "spec": "https://linguatech.global/openapi.json",
+        "healthCheck": "https://linguatech.global/health"
+      },
+      {
+        "type": "mcp",
+        "endpoint": "https://api.linguatech.global/mcp",
+        "version": "1.0",
+        "healthCheck": "https://linguatech.global/health"
+      },
+      {
+        "type": "websocket",
+        "endpoint": "wss://linguatech/ws",
+        "version": "1.0"
+      }
+    ],
+    "authentication": [
+      "api_key",
+      "oauth2"
+    ]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": [
+      "US"
+    ],
+    "dataSharing": "none",
+    "privacyPolicy": "https://linguatech.global/privacy",
+    "gdprCompliant": true,
+    "ccpaCompliant": true
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MCowBQYDK2VwAyEA3vXC8KZnPqLmK9jR4tF7sG2hJ5kL="
+    }
+  },
+  "sla": {
+    "uptimePct": 99.8,
+    "responseTimeMs": 400
+  },
+  "pricing": [
+    {
+      "plan": "pay_as_you_go",
+      "unit": "token",
+      "price": 2e-05,
+      "limits": "minimum $10/month",
+      "currency": "USD"
+    },
+    {
+      "plan": "professional",
+      "unit": "month",
+      "price": 149,
+      "limits": "5M characters/month included",
+      "currency": "USD"
+    }
+  ],
+  "metadata": {
+    "documentation": "https://linguatech.global/docs"
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}

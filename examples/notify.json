@@ -1,0 +1,169 @@
+{
+  "aid": "aid://metisos.co/notify@2.0.0",
+  "name": "Notify",
+  "description": "Multi-channel notification service with delivery tracking, retry logic, and compliance logging. Supports email, SMS, Slack, webhooks, and push notifications.",
+  "owner": {
+    "org": "Metis Analytics",
+    "site": "https://metisos.co",
+    "contact": "support@metisos.co",
+    "support": "https://docs.metisos.co/notify"
+  },
+  "capabilities": [
+    {
+      "id": "notify.send",
+      "description": "Send notifications via configured channels with automatic retry and delivery confirmation",
+      "inputs": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "type": "string",
+            "enum": ["email", "sms", "slack", "webhook", "push"]
+          },
+          "recipient": {
+            "type": "string",
+            "description": "Email, phone number, Slack channel, or webhook URL"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "normal", "high", "urgent"],
+            "default": "normal"
+          }
+        },
+        "required": ["channel", "recipient", "message"]
+      },
+      "outputs": {
+        "type": "object",
+        "properties": {
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["sent", "queued", "failed"]
+          },
+          "deliveredAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "errors": [
+        {
+          "code": "invalid_recipient",
+          "httpStatus": 400,
+          "description": "Recipient format is invalid",
+          "retryable": false
+        },
+        {
+          "code": "rate_limit_exceeded",
+          "httpStatus": 429,
+          "description": "Too many requests",
+          "retryable": true,
+          "retryAfterSeconds": 60
+        }
+      ],
+      "rateLimit": {
+        "requestsPerMinute": 100,
+        "requestsPerHour": 5000,
+        "burstLimit": 200
+      }
+    },
+    {
+      "id": "notify.status",
+      "description": "Check delivery status and history of sent notifications",
+      "inputs": {
+        "type": "object",
+        "properties": {
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": ["messageId"]
+      },
+      "outputs": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["sent", "delivered", "failed", "bounced"]
+          },
+          "attempts": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://api.metisos.co/v2",
+        "version": "2.0.0",
+        "spec": "https://api.metisos.co/openapi.json",
+        "healthCheck": "https://api.metisos.co/health"
+      },
+      {
+        "type": "mcp",
+        "endpoint": "https://api.metisos.co/mcp/v1",
+        "version": "1.0",
+        "healthCheck": "https://api.metisos.co/health"
+      }
+    ],
+    "authentication": ["oauth2", "api_key", "jwt"]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": ["US", "EU"],
+    "dataSharing": "none",
+    "privacyPolicy": "https://metisos.co/privacy",
+    "gdprCompliant": true,
+    "ccpaCompliant": true,
+    "hipaaCompliant": false
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MCowBQYDK2VwAyEAn1QT3nD8FqPzVZ+7K5mYvN9wX2rH8jL3pQ4sT6uV8wY="
+    },
+    "attestations": [
+      {
+        "type": "domain_control",
+        "value": "metisos.co",
+        "attestor": "Metis Analytics",
+        "validUntil": "2026-11-07T00:00:00Z"
+      }
+    ],
+    "certifications": ["soc2"]
+  },
+  "sla": {
+    "uptimePct": 99.95,
+    "responseTimeMs": 300,
+    "errorRatePct": 0.1
+  },
+  "pricing": [
+    {
+      "plan": "Free",
+      "currency": "USD",
+      "price": 0,
+      "unit": "month"
+    },
+    {
+      "plan": "Pro",
+      "currency": "USD",
+      "price": 29,
+      "unit": "month"
+    }
+  ],
+  "metadata": {
+    "category": ["communication", "automation"],
+    "tags": ["notifications", "email", "sms", "slack"],
+    "documentation": "https://docs.metisos.co/notify"
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}

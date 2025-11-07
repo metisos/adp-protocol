@@ -1,0 +1,153 @@
+{
+  "aid": "aid://mailautomation/smartmail@2.4.1",
+  "name": "SmartMail Email Automation Platform",
+  "description": "Intelligent email management and automation system with AI-powered sorting, automatic responses, sentiment analysis, and advanced workflow automation for professional email communication",
+  "owner": {
+    "org": "MailAutomation Systems",
+    "site": "https://smartmail.pro",
+    "contact": "support@smartmail.pro"
+  },
+  "capabilities": [
+    {
+      "id": "email.send",
+      "description": "Send transactional and marketing emails with templates and personalization",
+      "inputs": {
+        "to": "email address or array of addresses",
+        "subject": "email subject line",
+        "body": "email body (HTML or plain text)",
+        "template_id": "optional template identifier",
+        "variables": "object with template variables",
+        "attachments": "array of file URLs or base64 data",
+        "schedule_time": "ISO 8601 datetime for scheduled sending"
+      },
+      "outputs": {
+        "message_id": "unique message identifier",
+        "status": "sent | scheduled | failed",
+        "delivery_time": "estimated delivery timestamp",
+        "tracking_enabled": "boolean"
+      }
+    },
+    {
+      "id": "email.classify",
+      "description": "Automatically classify and prioritize incoming emails using AI",
+      "inputs": {
+        "email_content": "email body and metadata",
+        "classification_rules": "array of custom rules or 'auto'",
+        "priority_scoring": "boolean"
+      },
+      "outputs": {
+        "category": "urgent | important | promotional | social | spam",
+        "priority_score": "0-100",
+        "sentiment": "positive | neutral | negative",
+        "action_required": "boolean",
+        "suggested_response": "AI-generated response draft",
+        "tags": "array of relevant tags"
+      }
+    },
+    {
+      "id": "email.autorespond",
+      "description": "Generate and send intelligent automatic responses based on context",
+      "inputs": {
+        "email_id": "incoming email identifier",
+        "response_style": "formal | friendly | brief | detailed",
+        "include_context": "boolean to reference email history",
+        "require_approval": "boolean"
+      },
+      "outputs": {
+        "response_draft": "generated response text",
+        "confidence": "0-1 confidence in response quality",
+        "status": "sent | pending_approval | draft",
+        "suggested_edits": "array of recommended improvements"
+      }
+    },
+    {
+      "id": "email.analyze",
+      "description": "Analyze email patterns, engagement metrics, and communication insights",
+      "inputs": {
+        "mailbox_id": "mailbox to analyze",
+        "time_period": "last_7_days | last_30_days | custom range",
+        "metrics": "array of volume | response_time | engagement | sentiment"
+      },
+      "outputs": {
+        "total_emails": "count of emails sent and received",
+        "average_response_time": "time in hours",
+        "engagement_rate": "percentage of emails that got responses",
+        "sentiment_breakdown": "distribution of positive, neutral, negative",
+        "top_contacts": "most frequent communication partners",
+        "productivity_score": "overall email efficiency score"
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://smartmail.pro/v1",
+        "version": "1.0.0",
+        "spec": "https://smartmail.pro/openapi.json",
+        "healthCheck": "https://smartmail.pro/health"
+      },
+      {
+        "type": "mcp",
+        "endpoint": "https://api.smartmail.pro/mcp/v2",
+        "version": "1.0",
+        "healthCheck": "https://smartmail.pro/health"
+      },
+      {
+        "type": "websocket",
+        "endpoint": "wss://mailautomation/ws",
+        "version": "1.0"
+      }
+    ],
+    "authentication": [
+      "oauth2",
+      "api_key"
+    ]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": [
+      "US"
+    ],
+    "dataSharing": "none",
+    "privacyPolicy": "https://smartmail.pro/privacy",
+    "gdprCompliant": true,
+    "ccpaCompliant": true
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MCowBQYDK2VwAyEAjK4lL5mM6nN7oO8pP9qQ0rR="
+    }
+  },
+  "sla": {
+    "uptimePct": 99.95,
+    "responseTimeMs": 300
+  },
+  "pricing": [
+    {
+      "plan": "starter",
+      "unit": "request",
+      "price": 0.001,
+      "limits": "10,000 emails/month included",
+      "currency": "USD"
+    },
+    {
+      "plan": "professional",
+      "unit": "month",
+      "price": 79,
+      "limits": "100,000 emails/month + advanced features",
+      "currency": "USD"
+    },
+    {
+      "plan": "enterprise",
+      "unit": "month",
+      "price": 499,
+      "limits": "unlimited emails + dedicated IP + custom integrations",
+      "currency": "USD"
+    }
+  ],
+  "metadata": {
+    "documentation": "https://smartmail.pro/docs"
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}

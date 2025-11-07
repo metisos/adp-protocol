@@ -1,0 +1,144 @@
+{
+  "aid": "aid://productivity/calendar@1.2.0",
+  "name": "Calendar Pro - Intelligent Scheduling Agent",
+  "description": "Advanced calendar management and intelligent scheduling assistant with natural language processing, conflict detection, and multi-timezone support for professional teams",
+  "owner": {
+    "org": "Productivity Systems Inc",
+    "site": "https://calendarpro.io",
+    "contact": "api@calendarpro.io"
+  },
+  "capabilities": [
+    {
+      "id": "calendar.create_event",
+      "description": "Create calendar events with automatic conflict detection and optimal time slot suggestions",
+      "inputs": {
+        "title": "string",
+        "description": "string",
+        "start_time": "ISO8601 datetime",
+        "end_time": "ISO8601 datetime",
+        "attendees": "array of email addresses",
+        "timezone": "IANA timezone identifier"
+      },
+      "outputs": {
+        "event_id": "string",
+        "status": "created | conflict | suggested_alternatives",
+        "conflicts": "array of conflicting events",
+        "suggested_times": "array of alternative time slots"
+      }
+    },
+    {
+      "id": "calendar.find_availability",
+      "description": "Find optimal meeting times across multiple participants and time zones",
+      "inputs": {
+        "participants": "array of user identifiers",
+        "duration_minutes": "integer",
+        "date_range": "object with start and end dates",
+        "preferences": "object with time preferences"
+      },
+      "outputs": {
+        "available_slots": "array of time slots with availability scores",
+        "recommendations": "top 3 recommended times with reasoning"
+      }
+    },
+    {
+      "id": "calendar.sync_external",
+      "description": "Synchronize with Google Calendar, Outlook, and other calendar systems",
+      "inputs": {
+        "provider": "google | outlook | apple | ical",
+        "credentials": "OAuth token or API key",
+        "sync_direction": "one_way | two_way"
+      },
+      "outputs": {
+        "sync_status": "success | partial | failed",
+        "events_synced": "integer",
+        "errors": "array of sync errors"
+      }
+    },
+    {
+      "id": "calendar.get_schedule",
+      "description": "Retrieve schedule with smart filtering and summarization",
+      "inputs": {
+        "user_id": "string",
+        "start_date": "ISO8601 date",
+        "end_date": "ISO8601 date",
+        "filters": "object with event type, attendee, and other filters"
+      },
+      "outputs": {
+        "events": "array of calendar events",
+        "summary": "text summary of key events and commitments"
+      }
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://calendarpro.io/v1",
+        "version": "1.0.0",
+        "spec": "https://calendarpro.io/openapi.json",
+        "healthCheck": "https://calendarpro.io/health"
+      },
+      {
+        "type": "mcp",
+        "endpoint": "https://api.calendarpro.io/mcp",
+        "version": "1.0",
+        "healthCheck": "https://calendarpro.io/health"
+      },
+      {
+        "type": "websocket",
+        "endpoint": "wss://productivity/ws",
+        "version": "1.0"
+      }
+    ],
+    "authentication": [
+      "oauth2",
+      "api_key"
+    ]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": [
+      "US"
+    ],
+    "dataSharing": "none",
+    "privacyPolicy": "https://calendarpro.io/privacy",
+    "gdprCompliant": true,
+    "ccpaCompliant": true
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE="
+    }
+  },
+  "sla": {
+    "uptimePct": 99.9,
+    "responseTimeMs": 300
+  },
+  "pricing": [
+    {
+      "plan": "free",
+      "unit": "request",
+      "price": 0,
+      "limits": "100 requests/day",
+      "currency": "USD"
+    },
+    {
+      "plan": "professional",
+      "unit": "month",
+      "price": 29,
+      "limits": "unlimited requests",
+      "currency": "USD"
+    },
+    {
+      "plan": "enterprise",
+      "unit": "month",
+      "price": 299,
+      "limits": "unlimited requests + SLA + dedicated support",
+      "currency": "USD"
+    }
+  ],
+  "metadata": {
+    "documentation": "https://calendarpro.io/docs"
+  },
+  "updatedAt": "2025-11-07T00:00:00Z"
+}
