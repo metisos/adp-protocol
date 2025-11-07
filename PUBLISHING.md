@@ -309,11 +309,9 @@ After publishing:
 
 ## Resources
 
-- GitHub: https://github.com/adp-protocol
-- Website: https://adp.dev
-- Documentation: https://docs.adp.dev
-- Discord: https://discord.gg/adp-protocol
-- Email: standards@adp.dev
+- GitHub: https://github.com/metisos/adp-protocol
+- Organization: Metis Analytics
+- Email: cjohnson@metisos.com
 
 ---
 

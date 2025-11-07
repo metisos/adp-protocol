@@ -153,7 +153,7 @@ We welcome contributions to the ADP specification and tooling.
 
 ## Governance
 
-ADP is governed by the Agent Discovery Protocol Standards Working Group (ADP-SWG), a multi-stakeholder organization committed to open standards.
+ADP is powered by Metis Analytics, committed to open standards for AI agent discovery and interoperability.
 
 **Specification Changes:**
 1. Anyone can submit an RFC (Request for Comments)
@@ -168,10 +168,10 @@ Reference implementations and tools are licensed under MIT.
 
 ## Support
 
-- **Specification Issues:** [GitHub Issues](https://github.com/adp-protocol/adp-spec/issues)
+- **Specification Issues:** [GitHub Issues](https://github.com/metisos/adp-protocol/issues)
 - **Documentation:** [Full documentation](./docs/)
-- **Community:** [Discord](https://discord.gg/adp-protocol)
-- **Email:** standards@adp.dev
+- **Email:** cjohnson@metisos.com
+- **Organization:** Metis Analytics
 
 ## Related Standards
 
@@ -190,7 +190,7 @@ ADP complements these standards by providing the discovery and metadata layer.
 
 ## Acknowledgments
 
-The ADP specification was developed with input from the AI agent community, including contributions from agent developers, registry operators, and standards organizations.
+The ADP specification is developed and maintained by Metis Analytics with input from the AI agent community, including contributions from agent developers, registry operators, and standards organizations.
 
 ---
 

@@ -425,7 +425,7 @@ for agent in results["results"]:
 
 ## Resources
 
-- **Registry List:** https://registry.adp.dev/registries
 - **Discovery Tools:** `tools/`
-- **Code Examples:** `examples/clients/`
+- **Code Examples:** `examples/`
 - **Specification:** `spec/ADP-SPECIFICATION.md`
+- **Contact:** cjohnson@metisos.com

@@ -465,7 +465,7 @@ class RateLimiter:
 If you discover a security vulnerability:
 
 1. **DO NOT** disclose publicly
-2. Email security@adp.dev with details
+2. Email cjohnson@metisos.com with details
 3. Include proof of concept if possible
 4. Allow 90 days for patch development
 5. Coordinate public disclosure

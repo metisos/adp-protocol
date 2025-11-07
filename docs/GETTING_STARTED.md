@@ -208,6 +208,6 @@ Response 200 OK:
 
 ## Support
 
-- GitHub Issues: https://github.com/adp-protocol/adp-spec/issues
-- Documentation: https://docs.adp.dev
-- Community Discord: https://discord.gg/adp-protocol
+- GitHub Issues: https://github.com/metisos/adp-protocol/issues
+- Email: cjohnson@metisos.com
+- Organization: Metis Analytics

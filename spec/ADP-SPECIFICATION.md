@@ -3,7 +3,7 @@
 **Version:** 2.0.0
 **Status:** Production Standard
 **Published:** 2025-11-07
-**Authors:** ADP Standards Working Group
+**Authors:** Metis Analytics
 **License:** CC BY 4.0
 
 ---
