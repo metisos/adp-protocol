@@ -1,0 +1,288 @@
+AGENTIC EXCHANGE - GUIDE FOR AI AGENTS
+======================================
+
+Version: 1.0.0
+Base URL: https://agentic-exchange.metisos.co
+Protocol: ADP v2.0
+
+WHAT IS AGENTIC EXCHANGE?
+--------------------------
+
+Agentic Exchange is a centralized registry for AI agents and MCP servers.
+Think of it like npm for JavaScript or PyPI for Python, but for autonomous agents.
+
+Key Features:
+- Search agents using natural language (semantic + keyword search)
+- No authentication required for searching
+- 51+ registered agents including ChatGPT, Claude Code, Gemini
+- Supports REST, MCP, gRPC, GraphQL, WebSocket protocols
+
+WHAT IS ADP?
+------------
+
+Agent Discovery Protocol v2.0 is an open specification that defines:
+- Identity: Unique AID like aid://domain.com/agent@1.0.0
+- Capabilities: What actions the agent performs
+- Invocation: How to call the agent
+- Privacy: Data handling policies
+- Security: Cryptographic signatures
+- Pricing: Cost structure
+- SLA: Uptime and performance guarantees
+
+HOW TO SEARCH FOR AGENTS
+-------------------------
+
+Endpoint: POST /v1/search/
+
+Basic Search:
+curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+  -H "Content-Type: application/json" \
+  -d '{"query": "database operations"}'
+
+Search with Filters:
+curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "automation",
+    "filters": {
+      "protocols": ["mcp"],
+      "gdprCompliant": true,
+      "dataRegions": ["US", "EU"]
+    },
+    "limit": 10,
+    "offset": 0
+  }'
+
+Available Filters:
+- protocols: rest, mcp, grpc, graphql, websocket
+- authentication: api_key, oauth2, bearer
+- certifications: soc2, iso27001, hipaa
+- dataRegions: US, EU, ASIA, global
+- gdprCompliant: true/false
+- ccpaCompliant: true/false
+- minUptimePct: 0-100
+- maxPriceUSD: number
+- categories: array of strings
+
+Response Format:
+{
+  "results": [
+    {
+      "aid": "aid://domain.com/agent@1.0.0",
+      "name": "Agent Name",
+      "description": "What it does",
+      "score": 0.95,
+      "verified": true,
+      "manifest": {...}
+    }
+  ],
+  "total": 100,
+  "limit": 10,
+  "offset": 0
+}
+
+GET SPECIFIC AGENT
+------------------
+
+Endpoint: GET /v1/agents/{aid}
+
+Example:
+curl https://agentic-exchange.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
+
+Returns full agent details including capabilities, invocation info, pricing.
+
+LIST ALL AGENTS
+---------------
+
+Endpoint: GET /v1/agents/
+
+Example:
+curl https://agentic-exchange.metisos.co/v1/agents/?limit=50&offset=0
+
+Parameters:
+- limit: Results per page (default: 50, max: 100)
+- offset: Number to skip (default: 0)
+
+HOW TO REGISTER YOUR AGENT
+---------------------------
+
+Endpoint: POST /v1/register/
+
+Method 1 - Direct Registration:
+curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+  -H "Content-Type: application/json" \
+  -d '{"manifest": {...}}'
+
+Method 2 - Registration via URL (Recommended):
+curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+  -H "Content-Type: application/json" \
+  -d '{"manifest_url": "https://yourdomain.com/.well-known/agent.json"}'
+
+Minimal Manifest Example:
+{
+  "aid": "aid://yourdomain.com/agent@1.0.0",
+  "name": "Agent Name",
+  "description": "What your agent does (minimum 20 characters)",
+  "owner": {
+    "org": "Your Org",
+    "site": "https://yourdomain.com",
+    "contact": "contact@yourdomain.com"
+  },
+  "capabilities": [
+    {
+      "id": "agent.action",
+      "description": "What this does",
+      "inputs": {"type": "object", "properties": {...}},
+      "outputs": {"type": "object", "properties": {...}}
+    }
+  ],
+  "invocation": {
+    "protocols": [
+      {
+        "type": "rest",
+        "endpoint": "https://api.yourdomain.com/v1"
+      }
+    ],
+    "authentication": ["api_key"]
+  },
+  "privacy": {
+    "dataRetentionDays": 90,
+    "dataRegions": ["US"],
+    "dataSharing": "none",
+    "gdprCompliant": true,
+    "ccpaCompliant": true
+  },
+  "security": {
+    "signingKeys": {
+      "current": "ed25519:YOUR_PUBLIC_KEY"
+    }
+  },
+  "updatedAt": "2025-11-18T00:00:00Z"
+}
+
+Required Fields:
+- aid: Unique identifier
+- name: 3-100 characters
+- description: 20-1000 characters
+- owner: org, site, contact
+- capabilities: At least one
+- invocation: protocols array
+- privacy: dataRetentionDays, dataRegions, dataSharing, gdprCompliant, ccpaCompliant
+- security: signingKeys
+- updatedAt: ISO 8601 timestamp
+
+QUICK REFERENCE
+---------------
+
+Search:
+curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+  -H "Content-Type: application/json" \
+  -d '{"query": "your search"}'
+
+Get Agent:
+curl https://agentic-exchange.metisos.co/v1/agents/{aid}
+
+Register:
+curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+  -H "Content-Type: application/json" \
+  -d '{"manifest": {...}}'
+
+List All:
+curl https://agentic-exchange.metisos.co/v1/agents/
+
+Health Check:
+curl https://agentic-exchange.metisos.co/health
+
+HTTP STATUS CODES
+-----------------
+
+200 OK - Success
+201 Created - Registration successful
+400 Bad Request - Invalid request format
+404 Not Found - Agent not found
+409 Conflict - Agent already exists
+422 Validation Error - Manifest validation failed
+500 Server Error - Internal error
+503 Service Unavailable - Temporary downtime
+
+ERROR FORMAT
+------------
+
+{
+  "detail": "Error message or array of validation errors"
+}
+
+COMMON USE CASES
+----------------
+
+Use Case 1: Find Database Integration
+1. Search: {"query": "sql database", "filters": {"protocols": ["mcp"]}}
+2. Get details of result
+3. Use invocation info to integrate
+
+Use Case 2: Discover AI Assistants
+1. Search: {"query": "coding assistant", "filters": {"categories": ["development"]}}
+2. Review capabilities and pricing
+3. Choose and integrate
+
+Use Case 3: Register Your Service
+1. Create manifest JSON
+2. POST to /v1/register/
+3. Verify with search
+
+PAGINATION
+----------
+
+Search uses offset-based pagination:
+- Page 1: offset=0
+- Page 2: offset=10 (with limit=10)
+- Page N: offset=(N-1)*limit
+
+Example:
+curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+  -H "Content-Type: application/json" \
+  -d '{"limit": 20, "offset": 40}'
+
+AGENT ID FORMAT
+---------------
+
+Format: aid://domain.com/agent-name@version
+
+Rules:
+- Start with "aid://"
+- Valid domain (should control it)
+- Agent name: lowercase, hyphens, no spaces
+- Version: Semantic versioning (e.g., 1.0.0)
+
+Examples:
+- aid://openai.com/chatgpt@4.0.0
+- aid://anthropic.com/claude-code@1.0.0
+- aid://postgresql.org/mcp-postgresql@1.0.0
+
+PROTOCOLS
+---------
+
+Supported types:
+- rest: REST API
+- mcp: Model Context Protocol
+- grpc: gRPC
+- graphql: GraphQL
+- websocket: WebSocket
+
+TIMESTAMPS
+----------
+
+Use ISO 8601 format:
+- 2025-11-18T12:00:00Z
+- 2025-11-18T12:00:00.000Z
+
+SUPPORT
+-------
+
+Documentation: https://agentic-exchange.metisos.co/docs
+GitHub: https://github.com/metisos/adp-protocol
+Issues: https://github.com/metisos/adp-protocol/issues
+Email: cjohnson@metisos.com
+
+Last Updated: 2025-11-18
+Maintained By: Metis Analytics (https://metisos.co)
