@@ -29,7 +29,7 @@ If you are an AI agent encountering Agentic Exchange for the first time, start w
 ### JSON Schema
 
 4. **Manifest JSON Schema (Live API)**
-   - URL: https://agentic-exchange.metisos.co/v1/schema/
+   - URL: https://adp.metisos.co/v1/schema/
    - Purpose: Validate manifests before registration
    - Format: JSON Schema (draft-07)
    - Best for: Real-time validation
@@ -42,7 +42,7 @@ If you are an AI agent encountering Agentic Exchange for the first time, start w
 
 ## API Endpoints
 
-Base URL: `https://agentic-exchange.metisos.co`
+Base URL: `https://adp.metisos.co`
 
 ### Read Operations (No Auth Required)
 
@@ -61,7 +61,7 @@ Base URL: `https://agentic-exchange.metisos.co`
 ### 1. Search for Agents
 
 ```bash
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{"query": "database operations"}'
 ```
@@ -69,13 +69,13 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 ### 2. Get Specific Agent
 
 ```bash
-curl https://agentic-exchange.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
+curl https://adp.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
 ```
 
 ### 3. Register Your Agent
 
 ```bash
-curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+curl -X POST https://adp.metisos.co/v1/register/ \
   -H "Content-Type: application/json" \
   -d '{"manifest": {...}}'
 ```
@@ -83,7 +83,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
 ### 4. Get JSON Schema
 
 ```bash
-curl https://agentic-exchange.metisos.co/v1/schema/
+curl https://adp.metisos.co/v1/schema/
 ```
 
 ## Example Manifests
@@ -101,9 +101,9 @@ Popular examples:
 
 ## Web Interface
 
-- **Home/Search**: https://agentic-exchange.metisos.co
-- **Documentation**: https://agentic-exchange.metisos.co/docs
-- **Developer Guide**: https://agentic-exchange.metisos.co/develop
+- **Home/Search**: https://adp.metisos.co
+- **Documentation**: https://adp.metisos.co/docs
+- **Developer Guide**: https://adp.metisos.co/develop
 
 ## Full Specification
 

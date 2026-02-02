@@ -1,7 +1,7 @@
 # Agentic Exchange API Reference
 
 **Version:** 1.0.0
-**Base URL:** `https://agentic-exchange.metisos.co`
+**Base URL:** `https://adp.metisos.co`
 **Protocol:** ADP v2.0
 
 ## Overview
@@ -12,15 +12,15 @@ The Agentic Exchange API provides programmatic access to search and register AI 
 
 ```bash
 # Search for agents
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{"query": "database"}'
 
 # Get specific agent
-curl https://agentic-exchange.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
+curl https://adp.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
 
 # Register new agent
-curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+curl -X POST https://adp.metisos.co/v1/register/ \
   -H "Content-Type: application/json" \
   -d '{"manifest": {...}}'
 ```
@@ -137,12 +137,12 @@ Search for agents using natural language queries and filters.
 
 ```bash
 # Simple text search
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{"query": "email notifications"}'
 
 # Search with filters
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "automation tools",
@@ -153,7 +153,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
   }'
 
 # Browse with pagination (page 2)
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "limit": 10,
@@ -196,13 +196,13 @@ Retrieve all registered agents with pagination.
 
 ```bash
 # Get first 20 agents
-curl https://agentic-exchange.metisos.co/v1/agents/?limit=20
+curl https://adp.metisos.co/v1/agents/?limit=20
 
 # Get next 20 agents (page 2)
-curl https://agentic-exchange.metisos.co/v1/agents/?limit=20&offset=20
+curl https://adp.metisos.co/v1/agents/?limit=20&offset=20
 
 # Get all agents (max 100 at a time)
-curl https://agentic-exchange.metisos.co/v1/agents/?limit=100
+curl https://adp.metisos.co/v1/agents/?limit=100
 ```
 
 ---
@@ -256,17 +256,17 @@ Retrieve detailed information about a specific agent by its AID.
 
 ```bash
 # Get PostgreSQL MCP server
-curl https://agentic-exchange.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
+curl https://adp.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
 
 # Get ChatGPT agent
-curl https://agentic-exchange.metisos.co/v1/agents/aid://openai.com/chatgpt@4.0.0
+curl https://adp.metisos.co/v1/agents/aid://openai.com/chatgpt@4.0.0
 
 # Get Claude Code agent
-curl https://agentic-exchange.metisos.co/v1/agents/aid://anthropic.com/claude-code@1.0.0
+curl https://adp.metisos.co/v1/agents/aid://anthropic.com/claude-code@1.0.0
 
 # Note: AIDs with special characters should be URL-encoded
 # Example with URL encoding:
-curl https://agentic-exchange.metisos.co/v1/agents/aid%3A%2F%2Fexample.com%2Fagent%401.0.0
+curl https://adp.metisos.co/v1/agents/aid%3A%2F%2Fexample.com%2Fagent%401.0.0
 ```
 
 ---
@@ -408,12 +408,12 @@ Host your manifest at a public URL and provide that URL.
 
 ```bash
 # Register via direct manifest
-curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+curl -X POST https://adp.metisos.co/v1/register/ \
   -H "Content-Type: application/json" \
   -d @manifest.json
 
 # Register via URL
-curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+curl -X POST https://adp.metisos.co/v1/register/ \
   -H "Content-Type: application/json" \
   -d '{
     "manifest_url": "https://example.com/.well-known/agent.json"
@@ -472,7 +472,7 @@ Check the API health status.
 **Example:**
 
 ```bash
-curl https://agentic-exchange.metisos.co/health
+curl https://adp.metisos.co/health
 ```
 
 ---
@@ -556,7 +556,7 @@ Uses offset-based pagination:
 **Example:**
 ```bash
 # Get page 3 with 20 results per page
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "automation",
@@ -618,7 +618,7 @@ Supported protocol types:
 
 ```bash
 # 1. Search for database agents
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "postgresql database",
@@ -629,7 +629,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 # aid://postgresql.org/mcp-postgresql@1.0.0
 
 # 3. Get full details
-curl https://agentic-exchange.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0 \
+curl https://adp.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0 \
   > agent_details.json
 
 # 4. Use invocation.protocols info to integrate
@@ -693,12 +693,12 @@ cat > manifest.json <<EOF
 EOF
 
 # 2. Register
-curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+curl -X POST https://adp.metisos.co/v1/register/ \
   -H "Content-Type: application/json" \
   -d @manifest.json
 
 # 3. Verify registration
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{"query": "my-agent"}'
 ```
@@ -707,14 +707,14 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 
 ```bash
 # Get total count
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{}' | jq '.total'
 
 # Browse in batches of 20
 for i in {0..2}; do
   offset=$((i * 20))
-  curl https://agentic-exchange.metisos.co/v1/agents/?limit=20&offset=$offset \
+  curl https://adp.metisos.co/v1/agents/?limit=20&offset=$offset \
     > agents_page_$((i+1)).json
 done
 ```
@@ -728,7 +728,7 @@ done
 ```python
 import requests
 
-BASE_URL = "https://agentic-exchange.metisos.co"
+BASE_URL = "https://adp.metisos.co"
 
 def search_agents(query, filters=None):
     response = requests.post(
@@ -756,7 +756,7 @@ agent = get_agent("aid://postgresql.org/mcp-postgresql@1.0.0")
 ### JavaScript Example
 
 ```javascript
-const BASE_URL = "https://agentic-exchange.metisos.co";
+const BASE_URL = "https://adp.metisos.co";
 
 async function searchAgents(query, filters = {}) {
   const response = await fetch(`${BASE_URL}/v1/search/`, {
@@ -790,7 +790,7 @@ const agent = await getAgent("aid://postgresql.org/mcp-postgresql@1.0.0");
 
 ## Support
 
-- **Documentation:** https://agentic-exchange.metisos.co/docs
+- **Documentation:** https://adp.metisos.co/docs
 - **GitHub:** https://github.com/metisos/adp-protocol
 - **Issues:** https://github.com/metisos/adp-protocol/issues
 - **Email:** cjohnson@metisos.com

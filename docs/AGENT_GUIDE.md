@@ -2,7 +2,7 @@
 
 **Version:** 1.0.0
 **Last Updated:** 2025-11-18
-**Base URL:** https://agentic-exchange.metisos.co
+**Base URL:** https://adp.metisos.co
 
 ## Purpose of This Document
 
@@ -80,7 +80,7 @@ The **Agent Discovery Protocol (ADP) v2.0** is an open specification that standa
 
 **Request:**
 ```bash
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "database operations"
@@ -115,7 +115,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 You can refine searches with filters:
 
 ```bash
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "automation",
@@ -147,7 +147,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 Search supports pagination for browsing results:
 
 ```bash
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "data processing",
@@ -167,7 +167,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 **Endpoint:** `GET /v1/agents/{aid}`
 
 ```bash
-curl https://agentic-exchange.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
+curl https://adp.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
 ```
 
 **Response:**
@@ -246,10 +246,10 @@ curl https://agentic-exchange.metisos.co/v1/agents/aid://postgresql.org/mcp-post
 
 ```bash
 # Get first 20 agents
-curl https://agentic-exchange.metisos.co/v1/agents/?limit=20&offset=0
+curl https://adp.metisos.co/v1/agents/?limit=20&offset=0
 
 # Get next 20 agents
-curl https://agentic-exchange.metisos.co/v1/agents/?limit=20&offset=20
+curl https://adp.metisos.co/v1/agents/?limit=20&offset=20
 ```
 
 ---
@@ -342,7 +342,7 @@ An ADP manifest is a JSON document describing your agent. Here's a minimal examp
 **Method 1: Direct Manifest Registration**
 
 ```bash
-curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+curl -X POST https://adp.metisos.co/v1/register/ \
   -H "Content-Type: application/json" \
   -d '{
     "manifest": {
@@ -358,7 +358,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
 Host your manifest at `https://yourdomain.com/.well-known/agent.json` then:
 
 ```bash
-curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+curl -X POST https://adp.metisos.co/v1/register/ \
   -H "Content-Type: application/json" \
   -d '{
     "manifest_url": "https://yourdomain.com/.well-known/agent.json"
@@ -392,7 +392,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
 After registration, verify your agent appears in search:
 
 ```bash
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "yourdomain"
@@ -419,7 +419,7 @@ For successful registration, your manifest MUST include:
 
 ### Base URL
 ```
-https://agentic-exchange.metisos.co
+https://adp.metisos.co
 ```
 
 ### Endpoints Summary
@@ -509,7 +509,7 @@ https://agentic-exchange.metisos.co
 
 **Example:**
 ```bash
-curl https://agentic-exchange.metisos.co/v1/agents/aid://openai.com/chatgpt@4.0.0
+curl https://adp.metisos.co/v1/agents/aid://openai.com/chatgpt@4.0.0
 ```
 
 **Response:** Full agent object with manifest
@@ -564,7 +564,7 @@ curl https://agentic-exchange.metisos.co/v1/agents/aid://openai.com/chatgpt@4.0.
 
 ```bash
 # Search for database agents
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "sql database",
@@ -576,7 +576,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 
 # Review results and pick PostgreSQL
 # Get full details
-curl https://agentic-exchange.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
+curl https://adp.metisos.co/v1/agents/aid://postgresql.org/mcp-postgresql@1.0.0
 
 # Use the invocation info from manifest to integrate
 ```
@@ -585,7 +585,7 @@ curl https://agentic-exchange.metisos.co/v1/agents/aid://postgresql.org/mcp-post
 
 ```bash
 # Search for coding assistants
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "autonomous coding assistant",
@@ -602,12 +602,12 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 ```bash
 # Create manifest.json with your agent details
 # Register it
-curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+curl -X POST https://adp.metisos.co/v1/register/ \
   -H "Content-Type: application/json" \
   -d @manifest.json
 
 # Verify it's discoverable
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{"query": "your agent name"}'
 ```
@@ -616,7 +616,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 
 ```bash
 # Search for GDPR-compliant agents in EU
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{
     "query": "data processing",
@@ -703,7 +703,7 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 
 ## Additional Resources
 
-- **Full ADP v2.0 Specification:** https://agentic-exchange.metisos.co/docs/spec
+- **Full ADP v2.0 Specification:** https://adp.metisos.co/docs/spec
 - **Example Manifests:** https://github.com/metisos/adp-protocol/tree/main/examples
 - **JSON Schema:** Available at registry for validation
 - **Support:** Issues at https://github.com/metisos/adp-protocol/issues
@@ -714,23 +714,23 @@ curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
 
 ```bash
 # Search
-curl -X POST https://agentic-exchange.metisos.co/v1/search/ \
+curl -X POST https://adp.metisos.co/v1/search/ \
   -H "Content-Type: application/json" \
   -d '{"query": "your search"}'
 
 # Get agent
-curl https://agentic-exchange.metisos.co/v1/agents/{aid}
+curl https://adp.metisos.co/v1/agents/{aid}
 
 # Register
-curl -X POST https://agentic-exchange.metisos.co/v1/register/ \
+curl -X POST https://adp.metisos.co/v1/register/ \
   -H "Content-Type: application/json" \
   -d '{"manifest": {...}}'
 
 # List all
-curl https://agentic-exchange.metisos.co/v1/agents/
+curl https://adp.metisos.co/v1/agents/
 
 # Health
-curl https://agentic-exchange.metisos.co/health
+curl https://adp.metisos.co/health
 ```
 
 ---
